@@ -4,6 +4,7 @@ File name: argocd.yaml
 
 $ kubectl create ns argocd
 $ kubectl apply -f argocd.yaml -n argocd
+$ kubectl apply -f argocd-vault-plugin-credentials.yaml -n argocd
 
 Configure cluster, like changing password and adding cluster.
 
