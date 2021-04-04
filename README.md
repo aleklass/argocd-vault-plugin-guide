@@ -116,6 +116,9 @@ AVP_VAULT_ADDR: http://vault.default.svc.cluster.local:8200
 refrences:
 
 https://www.vaultproject.io/docs/platform/k8s/helm/run
+
 https://learn.hashicorp.com/tutorials/vault/kubernetes-minikube?in=vault/kubernetes
+
 https://www.vaultproject.io/docs/auth/kubernetes
+
 https://github.com/werne2j/arogcd-vault-plugin-demo
