@@ -77,7 +77,12 @@ $ vault write auth/kubernetes/config \
     kubernetes_host=(cluster-ip# kubectl cluster-info):<your TCP port or blank for 443> \
     kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
-- Wildcard can be used for path as well.
+OR,
+
+$ kubectl exec -ti vault-0 -- vault write auth/kubernetes/config \
+        token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+        kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
+        kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
 ---
 
@@ -86,6 +91,8 @@ path "avp/data/test" {
   capabilities = ["read"]
 }
 EOF
+
+- Wildcard can be used for path as well.
 
 ---
 

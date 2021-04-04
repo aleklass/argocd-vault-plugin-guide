@@ -8,7 +8,7 @@ kubectl apply -f argocd.yaml -n argocd
 #installing vault using helm
 helm install vault hashicorp/vault
 #read -p "Pause Time 5 seconds" -t 180
-read -p "Wait 1 minute till Pods get ready" -t 180
+read -p "Wait till Pods get ready" -t 180
 #read -n 1 -s -r -p "Press any key to continue"
 echo "Continuing ...."
 #checking pods
