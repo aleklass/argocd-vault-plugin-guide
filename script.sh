@@ -33,10 +33,11 @@ echo "Cluster IP $clusterip"
 kubectl exec -ti vault-0 -- vault login
 echo "Enter Vault Token Here"
 kubectl exec -ti vault-0 -- vault auth enable kubernetes 
-kubectl exec -ti vault-0 -- vault write auth/kubernetes/config \
-    token_reviewer_jwt="'$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)'" \
-    kubernetes_host=https://34.70.198.236 \
-    kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+vault write auth/kubernetes/config \
+        token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+        kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
+        kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
 kubectl exec -ti vault-0 -- vault write auth/kubernetes/role/argocd \
     bound_service_account_names=default \
