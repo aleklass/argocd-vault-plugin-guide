@@ -4,6 +4,12 @@ vault write auth/kubernetes/config \
         kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
 
+kubectl exec -ti vault-0 -- vault write auth/kubernetes/config \
+    token_reviewer_jwt="'$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)'" \
+    kubernetes_host=(clusterip) \
+    kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+kubectl cluster-info
 
 echo "Enter Token Here"
 vault login
