@@ -11,7 +11,9 @@ This guide is just for helping purposes
 File name: argocd.yaml
 
 $ kubectl create ns argocd
+
 $ kubectl apply -f argocd.yaml -n argocd
+
 $ kubectl apply -f argocd-vault-plugin-credentials.yaml -n argocd
 
 Configure cluster, like changing password and integrate cluster with argo.
@@ -42,7 +44,9 @@ $ helm install vault hashicorp/vault \
 ---
 
 $ helm install vault hashicorp/vault
+
 $ kubectl get pods -l app.kubernetes.io/name=vault
+
 $ kubectl exec -ti vault-0 -- vault operator init
 
 ### Unseal the first vault server until it reaches the key threshold
