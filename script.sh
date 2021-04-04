@@ -8,13 +8,14 @@ kubectl apply -f argocd.yaml -n argocd
 #installing vault using helm
 helm install vault hashicorp/vault
 #read -p "Pause Time 5 seconds" -t 180
-read -p "Wait 1 minute till Pods get ready" -t 60
+read -p "Wait 1 minute till Pods get ready" -t 180
+#read -n 1 -s -r -p "Press any key to continue"
 echo "Continuing ...."
 #checking pods
 kubectl get pods -l app.kubernetes.io/name=vault
 #getting keys and token from vault
 kubectl exec -ti vault-0 -- vault operator init
-read -p "Save these keys & Toke somewhere safe" -t 60
+read -p "Save these keys & Toke somewhere safe" -t 180
 #enter the keys respectively
 echo "Enter Key 1"
 kubectl exec -ti vault-0 -- vault operator unseal # ... Unseal Key 1
@@ -22,13 +23,13 @@ echo "Enter Key 2"
 kubectl exec -ti vault-0 -- vault operator unseal # ... Unseal Key 2
 echo "Enter Key 3"
 kubectl exec -ti vault-0 -- vault operator unseal # ... Unseal Key 3
-#check the vault running 1/1
+echo "Check the vault it should be running '1/1'"
 kubectl get pods -l app.kubernetes.io/name=vault
 #get cluster-ip
-kubectl cluster-info
-echo "Enter your cluster IP"
-read clusterip
-echo "Cluster IP $clusterip"
+#kubectl cluster-info
+#echo "Enter your cluster IP"
+#read clusterip
+#echo "Cluster IP $clusterip"
 #kubectl exec --stdin=true --tty=true vault-0 -- /bin/sh
 kubectl exec -ti vault-0 -- vault login
 echo "Enter Vault Token Here"
