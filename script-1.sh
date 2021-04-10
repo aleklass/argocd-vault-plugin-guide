@@ -29,6 +29,7 @@ cat cluster-keys.json | jq -r ".root_token"
 read -p "Copy Token Key" -t 10
 echo "Enter Vault Token Here"
 #kubectl exec --stdin=true --tty=true vault-0 -- /bin/sh
+#kubectl exec -it
 kubectl exec --stdin=true --tty=true vault-0 -n vault -- vault login
 kubectl exec --stdin=true --tty=true vault-0 -n vault -- vault auth enable kubernetes 
 kubectl exec --stdin=true --tty=true vault-0 -n vault -- vault write auth/kubernetes/config \
@@ -36,7 +37,7 @@ kubectl exec --stdin=true --tty=true vault-0 -n vault -- vault write auth/kubern
         kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
         kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
-kubectl exec --stdin=true vault-0 -n vault -- vault write auth/kubernetes/role/argocd \
+kubectl exec vault-0 -n vault -- vault write auth/kubernetes/role/argocd \
     bound_service_account_names=default \
     bound_service_account_namespaces=argocd \
     policies=argocd \

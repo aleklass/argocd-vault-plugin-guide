@@ -1,9 +1,9 @@
 {
   "unseal_keys_b64": [
-    "5yOIiubYitbpcpxgNieyhh6PRA0ZRbm6ZY9ZGZku6bo="
+    "7ZJiRFDAM00G76QibkievfZMQDSChIEA94pQ0K4Fir4="
   ],
   "unseal_keys_hex": [
-    "e723888ae6d88ad6e9729c603627b2861e8f440d1945b9ba658f5919992ee9ba"
+    "ed92624450c0334d06efa4226e489ebdf64c403482848100f78a50d0ae058abe"
   ],
   "unseal_shares": 1,
   "unseal_threshold": 1,
@@ -11,5 +11,5 @@
   "recovery_keys_hex": [],
   "recovery_keys_shares": 5,
   "recovery_keys_threshold": 3,
-  "root_token": "s.lniQs3KHm7L0OtKv1NJ5UYp3"
+  "root_token": "s.CjKca7WRk3PEr4JLFmcKTXFh"
 }
