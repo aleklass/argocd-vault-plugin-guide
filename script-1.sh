@@ -25,25 +25,31 @@ kubectl exec vault-0 -n vault -- vault operator unseal $VAULT_UNSEAL_KEY
 # # kubectl exec vault-2 -n vault -- vault operator unseal $VAULT_UNSEAL_KEY
 # kubectl get pods -l app.kubernetes.io/name=vault -n vault
 read -p "Vault pods should be running 1/1" -t 10
-cat cluster-keys.json | jq -r ".root_token"
-read -p "Copy Token Key" -t 10
+TOKEN=cat cluster-keys.json | jq -r ".root_token"
+#read -p "Copy Token Key" -t 10
 echo "Enter Vault Token Here"
 #kubectl exec --stdin=true --tty=true vault-0 -- /bin/sh
 #kubectl exec -it
 kubectl exec --stdin=true --tty=true vault-0 -n vault -- vault login
 kubectl exec --stdin=true --tty=true vault-0 -n vault -- vault auth enable kubernetes 
-kubectl exec --stdin=true --tty=true vault-0 -n vault -- vault write auth/kubernetes/config \
+
+KUBERNETES_PORT_443_TCP_ADDR=$(kubectl get service/kubernetes  -o jsonpath='{.spec.clusterIP}')
+echo $KUBERNETES_PORT_443_TCP_ADDR
+
+kubectl exec -ti vault-0 -n vault -- vault write auth/kubernetes/config \
         token_reviewer_jwt=@/var/run/secrets/kubernetes.io/serviceaccount/token \
         kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
         kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
-kubectl exec vault-0 -n vault -- vault write auth/kubernetes/role/argocd \
+kubectl exec -ti vault-0 -n vault -- vault write auth/kubernetes/role/argocd \
     bound_service_account_names=default \
     bound_service_account_namespaces=argocd \
     policies=argocd \
     ttl=1h
 
-kubectl exec --stdin=true --tty=true vault-0 -n vault -- vault policy write argocd - <<EOF
+#kubectl exec --stdin=true --tty=true vault-0 -n vault -- /bin/sh
+
+kubectl exec -i vault-0 -n vault -- vault policy write argocd - <<EOF
 path "*" {
   capabilities = ["read"]
 }
