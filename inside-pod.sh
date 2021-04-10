@@ -1,3 +1,4 @@
+#!/bin/bash
 vault auth enable kubernetes 
 vault write auth/kubernetes/config \
         token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
